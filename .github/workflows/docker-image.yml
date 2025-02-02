@@ -1,0 +1,26 @@
+name: Docker Image CI
+
+on:
+  pull_request:
+    types: [closed]  # Runs only when a PR is closed
+    branches: [ "main" ]
+
+jobs:
+  build:
+    if: github.event.pull_request.merged == true  # Runs only if the PR was merged
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract version from Gradle
+        id: gradle_version
+        run: |
+          VERSION=$(./gradlew properties -q | grep "version:" | awk '{print $2}')
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Build the Docker image
+        run: docker build . --file Docker/Dockerfile --tag hercules:${{ env.VERSION }}
+
+      - name: Push Docker image to GHCR
+        run: docker push ghcr.io/${{ github.repository_owner }}/hercules:${{ env.VERSION }}
