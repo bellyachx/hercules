@@ -20,7 +20,7 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Build the Docker image
-        run: docker build . --file Docker/Dockerfile --tag hercules:${{ env.VERSION }}
+        run: docker build . --file Docker/Dockerfile --tag ghcr.io/${{ github.repository_owner }}/hercules:${{ env.VERSION }}
 
       - name: Push Docker image to GHCR
         run: docker push ghcr.io/${{ github.repository_owner }}/hercules:${{ env.VERSION }}
