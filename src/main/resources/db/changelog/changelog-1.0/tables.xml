@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1738422292074-1" author="maxim">
+        <createTable tableName="exercises_difficulty">
+            <column name="id" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_exercises_difficulty"/>
+            </column>
+            <column name="difficulty_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint columnNames="difficulty_name" constraintName="uc_exercises_difficulty_difficulty" tableName="exercises_difficulty"/>
+    </changeSet>
+
+    <changeSet id="1738419041350-1" author="maxim">
+        <createTable tableName="muscle_groups">
+            <column name="id" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_muscle_groups"/>
+            </column>
+            <column name="group_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint columnNames="group_name" constraintName="uc_muscle_groups_group" tableName="muscle_groups"/>
+    </changeSet>
+
+    <changeSet id="1738419141506-1" author="maxim">
+        <createTable tableName="exercise_types">
+            <column name="id" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_exercise_types"/>
+            </column>
+            <column name="exercise_type_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint columnNames="exercise_type_name" constraintName="uc_exercise_types_type" tableName="exercise_types"/>
+    </changeSet>
+
+    <changeSet id="1738451969213-1" author="maxim">
+        <createTable tableName="exercises">
+            <column name="id" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_exercises"/>
+            </column>
+            <column name="image_id" type="VARCHAR(255)"/>
+            <column name="gif_id" type="VARCHAR(255)"/>
+            <column name="video_id" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="sets_count" type="INT"/>
+            <column name="reps_count" type="INT"/>
+            <column name="duration" type="BIGINT"/>
+            <column name="difficulty_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="exercise_type_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint columnNames="name" constraintName="uc_exercises_name" tableName="exercises"/>
+        <addForeignKeyConstraint baseColumnNames="difficulty_id" baseTableName="exercises" constraintName="FK_EXERCISES_ON_DIFFICULTY" referencedColumnNames="id" referencedTableName="exercises_difficulty"/>
+        <addForeignKeyConstraint baseColumnNames="exercise_type_id" baseTableName="exercises" constraintName="FK_EXERCISES_ON_EXERCISETYPE" referencedColumnNames="id" referencedTableName="exercise_types"/>
+    </changeSet>
+
+    <changeSet id="1738419150231-1" author="maxim">
+        <createTable tableName="exercise_muscle_groups">
+            <column name="id" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_exercise_muscle_groups"/>
+            </column>
+            <column name="exercise_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="muscle_group_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="exercise_id" baseTableName="exercise_muscle_groups" constraintName="FK_EXERCISE_MUSCLE_GROUPS_ON_EXERCISE" referencedColumnNames="id" referencedTableName="exercises"/>
+        <addForeignKeyConstraint baseColumnNames="muscle_group_id" baseTableName="exercise_muscle_groups" constraintName="FK_EXERCISE_MUSCLE_GROUPS_ON_MUSCLEGROUP" referencedColumnNames="id" referencedTableName="muscle_groups"/>
+    </changeSet>
+
+
+</databaseChangeLog>

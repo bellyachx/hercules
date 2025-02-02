@@ -1,0 +1,31 @@
+server:
+  servlet:
+    context-path: "/hercules"
+
+spring:
+  application:
+    name: hercules
+
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  liquibase:
+    enabled: false
+    change-log: classpath:db/changelog/master-changelog.xml
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+  use-management-port: true
+
+management:
+  server:
+    port: 9080  # Management port
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,metrics,openapi,swagger-ui"

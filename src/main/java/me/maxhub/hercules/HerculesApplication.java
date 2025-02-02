@@ -1,4 +1,4 @@
-package me.maxhub;
+package me.maxhub.hercules;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
