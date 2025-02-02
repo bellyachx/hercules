@@ -22,5 +22,8 @@ jobs:
       - name: Build the Docker image
         run: docker build . --file Docker/Dockerfile --tag ghcr.io/${{ github.repository_owner }}/hercules:${{ env.VERSION }}
 
+      - name: Log into GHCR
+        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
       - name: Push Docker image to GHCR
         run: docker push ghcr.io/${{ github.repository_owner }}/hercules:${{ env.VERSION }}

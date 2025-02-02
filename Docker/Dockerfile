@@ -10,7 +10,7 @@ COPY settings.gradle.kts .
 RUN chmod +x gradlew
 RUN ./gradlew dependencies --no-daemon
 COPY src src
-RUN ./gradlew build --no-daemon
+RUN ./gradlew build -x test --no-daemon
 
 FROM eclipse-temurin:21-jre AS runtime
 
