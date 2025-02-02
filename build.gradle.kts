@@ -32,7 +32,7 @@ val springDocVersion = "2.8.4"
 val jacksonVersion = "2.15.2"
 
 // Mapping
-val mapstructVersion = "1.5.5.Final"
+val mapstructVersion = "1.6.3"
 
 // Database
 val postgresVersion = "42.7.5"
