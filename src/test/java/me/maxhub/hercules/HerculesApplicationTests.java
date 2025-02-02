@@ -1,4 +1,4 @@
-package me.maxhub;
+package me.maxhub.hercules;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,6 +8,7 @@ class HerculesApplicationTests {
 
     @Test
     void contextLoads() {
+        // context loads
     }
 
 }
