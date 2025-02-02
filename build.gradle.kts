@@ -39,7 +39,7 @@ val postgresVersion = "42.7.5"
 
 // Liquibase
 val liquibaseVersion = "4.31.0"
-val picocliVersion = "4.6.1"
+val picocliVersion = "4.7.6"
 
 // Lombok
 val lombokVersion = "1.18.36"
