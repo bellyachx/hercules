@@ -29,7 +29,7 @@ val springBootVersion = "3.4.2"
 val springDocVersion = "2.8.4"
 
 // Jackson Databind
-val jacksonVersion = "2.15.2"
+val jacksonVersion = "2.18.2"
 
 // Mapping
 val mapstructVersion = "1.5.5.Final"
