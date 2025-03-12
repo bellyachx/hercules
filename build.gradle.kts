@@ -28,6 +28,9 @@ repositories {
 val springBootVersion = "3.4.3"
 val springDocVersion = "2.8.5"
 
+// Keycloak
+val keycloakVersion = "26.0.4"
+
 // Jackson Databind
 val jacksonVersion = "2.18.3"
 
@@ -41,6 +44,9 @@ val postgresVersion = "42.7.5"
 val liquibaseVersion = "4.31.1"
 val picocliVersion = "4.7.6"
 
+// Misc
+val apacheCommons = "3.17.0"
+
 // Lombok
 val lombokVersion = "1.18.36"
 val lombokMapstructBindingVersion = "0.2.0"
@@ -52,10 +58,15 @@ dependencies {
     // Spring
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springDocVersion")
     developmentOnly("org.springframework.boot:spring-boot-devtools:$springBootVersion")
+
+    // Keycloak
+    implementation("org.keycloak:keycloak-admin-client:$keycloakVersion")
+    implementation("org.keycloak:keycloak-crypto-default:$keycloakVersion")
 
     // Jackson Databind
     implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
@@ -74,6 +85,9 @@ dependencies {
     liquibaseRuntime("org.liquibase:liquibase-core:$liquibaseVersion")
     liquibaseRuntime("org.postgresql:postgresql:$postgresVersion")
     liquibaseRuntime("info.picocli:picocli:$picocliVersion")
+
+    // Misc
+    implementation("org.apache.commons:commons-lang3:$apacheCommons")
 
     // Lombok
     compileOnly("org.projectlombok:lombok:$lombokVersion")
