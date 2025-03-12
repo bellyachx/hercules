@@ -83,5 +83,4 @@
         <addForeignKeyConstraint baseColumnNames="muscle_group_id" baseTableName="exercise_muscle_groups" constraintName="FK_EXERCISE_MUSCLE_GROUPS_ON_MUSCLEGROUP" referencedColumnNames="id" referencedTableName="muscle_groups"/>
     </changeSet>
 
-
 </databaseChangeLog>
