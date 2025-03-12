@@ -38,7 +38,7 @@ val mapstructVersion = "1.6.3"
 val postgresVersion = "42.7.5"
 
 // Liquibase
-val liquibaseVersion = "4.31.0"
+val liquibaseVersion = "4.31.1"
 val picocliVersion = "4.7.6"
 
 // Lombok
