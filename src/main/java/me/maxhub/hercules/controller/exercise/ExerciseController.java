@@ -12,6 +12,8 @@ import me.maxhub.hercules.dto.ExerciseResponseDto;
 import me.maxhub.hercules.service.ExerciseFacade;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -75,7 +77,9 @@ public class ExerciseController {
             description = "Bad request. Parameters are not valid",
             content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))
     )
-    public ResponseEntity<Collection<ExerciseResponseDto>> getExercises() {
+    public ResponseEntity<Collection<ExerciseResponseDto>> getExercises(@AuthenticationPrincipal Jwt jwt) {
+        var subject = jwt.getSubject();
+        // todo get exercises by user id
         var exercises = exerciseFacade.getExercises();
         if (!exercises.isEmpty()) {
             return ResponseEntity.ok(exercises);

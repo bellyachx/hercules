@@ -16,6 +16,12 @@ spring:
     enabled: false
     change-log: classpath:db/changelog/master-changelog.xml
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KC_URL}
+
 springdoc:
   api-docs:
     enabled: true
@@ -30,9 +36,3 @@ management:
     web:
       exposure:
         include: "health,info,metrics,openapi,swagger-ui"
-
-keycloak:
-  url: ${KC_URL}
-  realm: ${KC_REALM}
-  client-id: ${KC_CLIENT_ID}
-  client-secret: ${KC_CLIENT_SECRET}

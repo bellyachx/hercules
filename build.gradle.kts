@@ -28,9 +28,6 @@ repositories {
 val springBootVersion = "3.4.3"
 val springDocVersion = "2.8.5"
 
-// Keycloak
-val keycloakVersion = "26.0.4"
-
 // Jackson Databind
 val jacksonVersion = "2.18.3"
 
@@ -44,29 +41,37 @@ val postgresVersion = "42.7.5"
 val liquibaseVersion = "4.31.1"
 val picocliVersion = "4.7.6"
 
-// Misc
-val apacheCommons = "3.17.0"
-
 // Lombok
-val lombokVersion = "1.18.36"
 val lombokMapstructBindingVersion = "0.2.0"
 
 // Testing
 val h2Version = "2.3.232"
 
-dependencies {
-    // Spring
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
-    implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
-    implementation("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
-    implementation("org.springframework.boot:spring-boot-starter-validation:$springBootVersion")
-    implementation("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springDocVersion")
-    developmentOnly("org.springframework.boot:spring-boot-devtools:$springBootVersion")
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.boot:spring-boot-dependencies:$springBootVersion")
+    }
+}
 
-    // Keycloak
-    implementation("org.keycloak:keycloak-admin-client:$keycloakVersion")
-    implementation("org.keycloak:keycloak-crypto-default:$keycloakVersion")
+dependencies {
+    // === Spring starters start ===
+    implementation("org.springframework.boot:spring-boot-starter-web")
+
+    // Data
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+    // Security
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+
+    // Validation
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+
+    // Actuator, swagger & devtools
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springDocVersion")
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+    // === Spring starters end ===
 
     // Jackson Databind
     implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
@@ -81,22 +86,22 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql:$postgresVersion")
 
     // Liquibase
-    implementation("org.liquibase:liquibase-core:$liquibaseVersion")
-    liquibaseRuntime("org.liquibase:liquibase-core:$liquibaseVersion")
+    implementation("org.liquibase:liquibase-core")
+    liquibaseRuntime("org.liquibase:liquibase-core")
     liquibaseRuntime("org.postgresql:postgresql:$postgresVersion")
     liquibaseRuntime("info.picocli:picocli:$picocliVersion")
 
     // Misc
-    implementation("org.apache.commons:commons-lang3:$apacheCommons")
+    implementation("org.apache.commons:commons-lang3")
 
     // Lombok
-    compileOnly("org.projectlombok:lombok:$lombokVersion")
-    annotationProcessor("org.projectlombok:lombok:$lombokVersion")
+    compileOnly("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok-mapstruct-binding:$lombokMapstructBindingVersion")
 
     // Testing
-    testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
-    testImplementation("com.h2database:h2:$h2Version")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("com.h2database:h2")
 }
 
 tasks.withType<Test> {
