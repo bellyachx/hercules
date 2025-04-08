@@ -69,6 +69,7 @@ dependencies {
 
     // Actuator, swagger & devtools
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("io.micrometer:micrometer-registry-prometheus")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springDocVersion")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     // === Spring starters end ===
