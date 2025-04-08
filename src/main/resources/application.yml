@@ -30,6 +30,9 @@ springdoc:
   use-management-port: true
 
 management:
+  metrics:
+    tags:
+      application: ${spring.application.name}
   server:
     port: 9080  # Management port
   endpoints:
