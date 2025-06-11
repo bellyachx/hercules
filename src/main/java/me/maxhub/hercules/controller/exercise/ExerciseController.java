@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import me.maxhub.hercules.dto.ErrorResponseDto;
 import me.maxhub.hercules.dto.ExerciseRequestDto;
 import me.maxhub.hercules.dto.ExerciseResponseDto;
-import me.maxhub.hercules.service.ExerciseFacade;
+import me.maxhub.hercules.service.exercise.ExerciseFacade;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -30,8 +30,10 @@ public class ExerciseController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @ApiResponse(responseCode = "201", description = "Exercise created successfully")
-    public void createExercise(@RequestBody @NotNull @Validated ExerciseRequestDto exerciseRequestDto) {
-        exerciseFacade.createExercise(exerciseRequestDto);
+    public void createExercise(@AuthenticationPrincipal Jwt jwt,
+                               @RequestBody @NotNull @Validated ExerciseRequestDto exerciseRequestDto) {
+        var subject = jwt.getSubject();
+        exerciseFacade.createExercise(subject, exerciseRequestDto);
     }
 
     @PutMapping("{id}")
@@ -42,9 +44,11 @@ public class ExerciseController {
             description = "Bad request. Parameters are not valid",
             content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))
     )
-    public void updateExercise(@PathVariable("id") @NotNull String id,
+    public void updateExercise(@AuthenticationPrincipal Jwt jwt,
+                               @PathVariable("id") @NotNull String id,
                                @RequestBody @NotNull @Validated ExerciseRequestDto exerciseRequestDto) {
-        exerciseFacade.updateExercise(id, exerciseRequestDto);
+        var subject = jwt.getSubject();
+        exerciseFacade.updateExercise(subject, id, exerciseRequestDto);
     }
 
     @DeleteMapping("{id}")
@@ -55,8 +59,10 @@ public class ExerciseController {
             description = "Bad request. Parameters are not valid",
             content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))
     )
-    public void deleteExercise(@PathVariable("id") @NotNull String id) {
-        exerciseFacade.deleteExercise(id);
+    public void deleteExercise(@AuthenticationPrincipal Jwt jwt,
+                               @PathVariable("id") @NotNull String id) {
+        var subject = jwt.getSubject();
+        exerciseFacade.deleteExercise(subject, id);
     }
 
     @GetMapping(value = "{id}", produces = "application/json")
@@ -66,8 +72,10 @@ public class ExerciseController {
             description = "Bad request. Parameters are not valid",
             content = @Content(schema = @Schema(implementation = ErrorResponseDto.class))
     )
-    public ResponseEntity<ExerciseResponseDto> getExercise(@PathVariable("id") @NotNull String id) {
-        return ResponseEntity.ok(exerciseFacade.getExercise(id));
+    public ResponseEntity<ExerciseResponseDto> getExercise(@AuthenticationPrincipal Jwt jwt,
+                                                           @PathVariable("id") @NotNull String id) {
+        var subject = jwt.getSubject();
+        return ResponseEntity.ok(exerciseFacade.getExercise(subject, id));
     }
 
     @GetMapping
@@ -79,8 +87,7 @@ public class ExerciseController {
     )
     public ResponseEntity<Collection<ExerciseResponseDto>> getExercises(@AuthenticationPrincipal Jwt jwt) {
         var subject = jwt.getSubject();
-        // todo get exercises by user id
-        var exercises = exerciseFacade.getExercises();
+        var exercises = exerciseFacade.getExercises(subject);
         if (!exercises.isEmpty()) {
             return ResponseEntity.ok(exercises);
         }

@@ -14,6 +14,7 @@ public class ExerciseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+    private String userId;
     private String imageId;
     private String gifId;
     private String videoId;

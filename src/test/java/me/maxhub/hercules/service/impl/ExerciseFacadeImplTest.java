@@ -5,10 +5,11 @@ import me.maxhub.hercules.dto.ExerciseResponseDto;
 import me.maxhub.hercules.entity.exercise.*;
 import me.maxhub.hercules.exception.ExerciseNotFoundException;
 import me.maxhub.hercules.mapper.ExerciseMapper;
-import me.maxhub.hercules.repo.DifficultyRepository;
-import me.maxhub.hercules.repo.ExerciseRepository;
-import me.maxhub.hercules.repo.ExerciseTypeRepository;
-import me.maxhub.hercules.repo.MuscleGroupRepository;
+import me.maxhub.hercules.repo.exercise.DifficultyRepository;
+import me.maxhub.hercules.repo.exercise.ExerciseRepository;
+import me.maxhub.hercules.repo.exercise.ExerciseTypeRepository;
+import me.maxhub.hercules.repo.exercise.MuscleGroupRepository;
+import me.maxhub.hercules.service.exercise.impl.ExerciseFacadeImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -74,9 +75,9 @@ class ExerciseFacadeImplTest {
         when(exerciseTypeRepository.findByExerciseTypeName(any())).thenReturn(Optional.empty());
         when(exerciseTypeRepository.save(any())).thenReturn(new ExerciseTypeEntity("Cardio"));
 
-        when(mapper.toEntity(any(), any(), any())).thenReturn(exerciseEntity);
+        when(mapper.toEntity(any(), any(), any(), any())).thenReturn(exerciseEntity);
 
-        exerciseFacade.createExercise(exerciseRequestDto);
+        exerciseFacade.createExercise("1", exerciseRequestDto);
 
         verify(exerciseRepository, times(1)).save(any(ExerciseEntity.class));
     }
@@ -84,9 +85,9 @@ class ExerciseFacadeImplTest {
     @Test
     void updateExercise_ShouldUpdateExistingExercise() {
         when(exerciseRepository.findById(exerciseId)).thenReturn(Optional.of(exerciseEntity));
-        when(mapper.toEntity(any(), any(), any())).thenReturn(exerciseEntity);
+        when(mapper.toEntity(any(), any(), any(), any())).thenReturn(exerciseEntity);
 
-        exerciseFacade.updateExercise(exerciseId, exerciseRequestDto);
+        exerciseFacade.updateExercise("1", exerciseId, exerciseRequestDto);
 
         verify(exerciseRepository, times(1)).save(any(ExerciseEntity.class));
     }
@@ -95,7 +96,7 @@ class ExerciseFacadeImplTest {
     void updateExercise_ShouldThrowException_WhenExerciseNotFound() {
         when(exerciseRepository.findById(exerciseId)).thenReturn(Optional.empty());
 
-        assertThrows(ExerciseNotFoundException.class, () -> exerciseFacade.updateExercise(exerciseId, exerciseRequestDto));
+        assertThrows(ExerciseNotFoundException.class, () -> exerciseFacade.updateExercise("1", exerciseId, exerciseRequestDto));
 
         verify(exerciseRepository, never()).save(any());
     }
@@ -104,7 +105,7 @@ class ExerciseFacadeImplTest {
     void deleteExercise_ShouldDelete_WhenExerciseExists() {
         when(exerciseRepository.existsById(exerciseId)).thenReturn(true);
 
-        exerciseFacade.deleteExercise(exerciseId);
+        exerciseFacade.deleteExercise("1", exerciseId);
 
         verify(exerciseRepository, times(1)).deleteById(exerciseId);
     }
@@ -113,7 +114,7 @@ class ExerciseFacadeImplTest {
     void deleteExercise_ShouldThrowException_WhenExerciseNotFound() {
         when(exerciseRepository.existsById(exerciseId)).thenReturn(false);
 
-        assertThrows(ExerciseNotFoundException.class, () -> exerciseFacade.deleteExercise(exerciseId));
+        assertThrows(ExerciseNotFoundException.class, () -> exerciseFacade.deleteExercise("1", exerciseId));
 
         verify(exerciseRepository, never()).deleteById(any());
     }
@@ -123,7 +124,7 @@ class ExerciseFacadeImplTest {
         when(exerciseRepository.findById(exerciseId)).thenReturn(Optional.of(exerciseEntity));
         when(mapper.toDto(exerciseEntity)).thenReturn(exerciseResponseDto);
 
-        var result = exerciseFacade.getExercise(exerciseId);
+        var result = exerciseFacade.getExercise("1", exerciseId);
 
         assertNotNull(result);
         assertEquals(exerciseId, result.getId());
@@ -133,7 +134,7 @@ class ExerciseFacadeImplTest {
     void getExercise_ShouldThrowException_WhenNotFound() {
         when(exerciseRepository.findById(exerciseId)).thenReturn(Optional.empty());
 
-        assertThrows(ExerciseNotFoundException.class, () -> exerciseFacade.getExercise(exerciseId));
+        assertThrows(ExerciseNotFoundException.class, () -> exerciseFacade.getExercise("1", exerciseId));
     }
 
     @Test
@@ -141,7 +142,7 @@ class ExerciseFacadeImplTest {
         when(exerciseRepository.findAll()).thenReturn(List.of(exerciseEntity));
         when(mapper.toDto(any())).thenReturn(exerciseResponseDto);
 
-        var result = exerciseFacade.getExercises();
+        var result = exerciseFacade.getExercises("1");
 
         assertNotNull(result);
         assertEquals(1, result.size());

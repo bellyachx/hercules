@@ -1,4 +1,4 @@
-package me.maxhub.hercules.repo;
+package me.maxhub.hercules.repo.exercise;
 
 import me.maxhub.hercules.entity.exercise.ExerciseMuscleGroupEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

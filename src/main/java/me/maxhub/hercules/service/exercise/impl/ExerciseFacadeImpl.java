@@ -1,4 +1,4 @@
-package me.maxhub.hercules.service.impl;
+package me.maxhub.hercules.service.exercise.impl;
 
 import lombok.RequiredArgsConstructor;
 import me.maxhub.hercules.dto.ExerciseRequestDto;
@@ -6,11 +6,12 @@ import me.maxhub.hercules.dto.ExerciseResponseDto;
 import me.maxhub.hercules.entity.exercise.*;
 import me.maxhub.hercules.exception.ExerciseNotFoundException;
 import me.maxhub.hercules.mapper.ExerciseMapper;
-import me.maxhub.hercules.repo.DifficultyRepository;
-import me.maxhub.hercules.repo.ExerciseRepository;
-import me.maxhub.hercules.repo.ExerciseTypeRepository;
-import me.maxhub.hercules.repo.MuscleGroupRepository;
-import me.maxhub.hercules.service.ExerciseFacade;
+import me.maxhub.hercules.repo.exercise.DifficultyRepository;
+import me.maxhub.hercules.repo.exercise.ExerciseRepository;
+import me.maxhub.hercules.repo.exercise.ExerciseTypeRepository;
+import me.maxhub.hercules.repo.exercise.MuscleGroupRepository;
+import me.maxhub.hercules.service.exercise.ExerciseFacade;
+import me.maxhub.hercules.utils.Constants;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,46 +31,46 @@ public class ExerciseFacadeImpl implements ExerciseFacade {
 
     @Override
     @Transactional
-    public void createExercise(ExerciseRequestDto exerciseRequestDto) {
-        exerciseRepository.save(getExerciseEntity(exerciseRequestDto));
+    public void createExercise(String subject, ExerciseRequestDto exerciseRequestDto) {
+        exerciseRepository.save(getExerciseEntity(subject, exerciseRequestDto));
     }
 
     @Override
     @Transactional
-    public void updateExercise(String id, ExerciseRequestDto exerciseRequestDto) {
-        var exerciseEntity = exerciseRepository.findById(id);
+    public void updateExercise(String subject, String id, ExerciseRequestDto exerciseRequestDto) {
+        var exerciseEntity = exerciseRepository.findByIdAndUserIdIn(id, List.of(subject));
         if (exerciseEntity.isEmpty()) {
             throw new ExerciseNotFoundException(id);
         }
 
-        var entityToSave = getExerciseEntity(exerciseRequestDto);
+        var entityToSave = getExerciseEntity(subject, exerciseRequestDto);
         entityToSave.setId(id);
         exerciseRepository.save(entityToSave);
     }
 
     @Override
-    public void deleteExercise(String id) {
-        if (!exerciseRepository.existsById(id)) {
+    public void deleteExercise(String subject, String id) {
+        if (!exerciseRepository.existsByIdAndUserIdIn(id, List.of(subject))) {
             throw new ExerciseNotFoundException(id);
         }
         exerciseRepository.deleteById(id);
     }
 
     @Override
-    public ExerciseResponseDto getExercise(String id) {
-        return exerciseRepository.findById(id)
+    public ExerciseResponseDto getExercise(String subject, String id) {
+        return exerciseRepository.findByIdAndUserIdIn(id, List.of(subject, Constants.SYSTEM_USER_ID))
                 .map(mapper::toDto)
                 .orElseThrow(() -> new ExerciseNotFoundException(id));
     }
 
     @Override
-    public Collection<ExerciseResponseDto> getExercises() {
-        var exercises = exerciseRepository.findAll();
+    public Collection<ExerciseResponseDto> getExercises(String subject) {
+        var exercises = exerciseRepository.findAllByUserIdIn(List.of(subject, Constants.SYSTEM_USER_ID));
         return exercises.stream().map(mapper::toDto).toList();
     }
 
     private Collection<ExerciseMuscleGroupEntity> createMuscleGroups(Collection<String> muscleGroups,
-                                                                     ExerciseEntity exerciseEntity) {
+            ExerciseEntity exerciseEntity) {
         var existingGroups = muscleGroupRepository.findAllByGroupNameIn(muscleGroups);
         var existingGroupNames = existingGroups.stream()
                 .map(MuscleGroupEntity::getGroupName)
@@ -95,11 +96,11 @@ public class ExerciseFacadeImpl implements ExerciseFacade {
                 .toList();
     }
 
-    private ExerciseEntity getExerciseEntity(ExerciseRequestDto exerciseRequestDto) {
+    private ExerciseEntity getExerciseEntity(String subject, ExerciseRequestDto exerciseRequestDto) {
         var difficultyName = exerciseRequestDto.getDifficulty();
         var difficultyEntity = getDifficultyEntity(difficultyName);
         var exerciseTypeEntity = getExerciseTypeEntity(exerciseRequestDto);
-        var entity = mapper.toEntity(exerciseRequestDto, difficultyEntity, exerciseTypeEntity);
+        var entity = mapper.toEntity(exerciseRequestDto, difficultyEntity, exerciseTypeEntity, subject);
         entity.setMuscleGroups(createMuscleGroups(exerciseRequestDto.getMuscleGroups(), entity));
         return entity;
     }
@@ -111,6 +112,7 @@ public class ExerciseFacadeImpl implements ExerciseFacade {
 
     private ExerciseTypeEntity getExerciseTypeEntity(ExerciseRequestDto exerciseRequestDto) {
         return exerciseTypeRepository.findByExerciseTypeName(exerciseRequestDto.getExerciseType())
-                .orElseGet(() -> exerciseTypeRepository.save(new ExerciseTypeEntity(exerciseRequestDto.getExerciseType())));
+                .orElseGet(() -> exerciseTypeRepository
+                        .save(new ExerciseTypeEntity(exerciseRequestDto.getExerciseType())));
     }
 }

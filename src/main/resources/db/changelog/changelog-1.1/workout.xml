@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1749630566592-1" author="maxim">
+        <createTable tableName="exercise_logs">
+            <column name="id" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_exercise_logs"/>
+            </column>
+            <column name="user_id" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="exercise_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sets" type="INT"/>
+            <column name="reps" type="INT"/>
+            <column name="duration" type="BIGINT"/>
+            <column name="notes" type="text"/>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="exercise_id" baseTableName="exercise_logs" constraintName="FK_EXERCISE_LOGS_ON_EXERCISES" referencedColumnNames="id" referencedTableName="exercises"/>
+    </changeSet>
+
+    <changeSet id="1749630563129-1" author="maxim">
+        <createTable tableName="workout_logs">
+            <column name="id" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_workout_logs"/>
+            </column>
+            <column name="user_id" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="notes" type="text"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1749630559837-1" author="maxim">
+        <createTable tableName="workouts">
+            <column name="id" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_workouts"/>
+            </column>
+            <column name="user_id" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="notes" type="text"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1749630556720-1" author="maxim">
+        <createTable tableName="workout_exercises">
+            <column name="id" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_workout_exercises"/>
+            </column>
+            <column name="exercise_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="workout_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="exercise_id" baseTableName="workout_exercises" constraintName="FK_WORKOUT_EXERCISES_ON_EXERCISES" referencedColumnNames="id" referencedTableName="exercises"/>
+        <addForeignKeyConstraint baseColumnNames="workout_id" baseTableName="workout_exercises" constraintName="FK_WORKOUT_EXERCISES_ON_WORKOUTS" referencedColumnNames="id" referencedTableName="workouts"/>
+    </changeSet>
+
+    <changeSet id="1749630548167-1" author="maxim">
+        <createTable tableName="exercise_workout_logs">
+            <column name="id" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_exercise_workout_logs"/>
+            </column>
+            <column name="workout_log_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="exercise_log_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="workout_log_id" baseTableName="exercise_workout_logs" constraintName="FK_EXERCISE_WORKOUT_LOGS_ON_WORKOUT_LOGS" referencedColumnNames="id" referencedTableName="workout_logs"/>
+        <addForeignKeyConstraint baseColumnNames="exercise_log_id" baseTableName="exercise_workout_logs" constraintName="FK_EXERCISE_WORKOUT_LOGS_ON_EXERCISE_LOGS" referencedColumnNames="id" referencedTableName="exercise_logs"/>
+    </changeSet>
+
+</databaseChangeLog>

@@ -19,9 +19,11 @@ public abstract class ExerciseMapper {
     @Mapping(target = "muscleGroups", ignore = true)
     @Mapping(target = "difficulty", source = "difficultyEntity")
     @Mapping(target = "exerciseType", source = "exerciseTypeEntity")
+    @Mapping(target = "userId", source = "subject")
     public abstract ExerciseEntity toEntity(ExerciseRequestDto exerciseRequestDto,
-                            DifficultyEntity difficultyEntity,
-                            ExerciseTypeEntity exerciseTypeEntity);
+                                            DifficultyEntity difficultyEntity,
+                                            ExerciseTypeEntity exerciseTypeEntity,
+                                            String subject);
 
     public abstract ExerciseResponseDto toDto(ExerciseEntity exerciseEntity);
 
@@ -47,8 +49,8 @@ public abstract class ExerciseMapper {
         }
 
         return exerciseMuscleGroupEntities.stream()
-                .map(ExerciseMuscleGroupEntity::getMuscleGroup)
-                .map(MuscleGroupEntity::getGroupName)
-                .toList();
+            .map(ExerciseMuscleGroupEntity::getMuscleGroup)
+            .map(MuscleGroupEntity::getGroupName)
+            .toList();
     }
 }
