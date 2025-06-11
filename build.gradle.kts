@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "me.maxhub.hercules"
-version = "0.0.3"
+version = "0.0.4"
 
 java {
     toolchain {
