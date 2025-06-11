@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/exercises/muscle-groups")
+@RequestMapping("api/v1/admin/exercises/muscle-groups")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 public class MuscleGroupController {
@@ -31,6 +31,7 @@ public class MuscleGroupController {
     }
 
     @GetMapping
+    @PreAuthorize("permitAll()")
     public List<String> getExerciseTypes() {
         return service.getMuscleGroups();
     }

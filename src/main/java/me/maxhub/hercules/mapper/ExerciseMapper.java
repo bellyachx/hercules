@@ -1,7 +1,7 @@
 package me.maxhub.hercules.mapper;
 
-import me.maxhub.hercules.dto.ExerciseRequestDto;
-import me.maxhub.hercules.dto.ExerciseResponseDto;
+import me.maxhub.hercules.dto.exercise.ExerciseRequestDto;
+import me.maxhub.hercules.dto.exercise.ExerciseResponseDto;
 import me.maxhub.hercules.entity.exercise.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

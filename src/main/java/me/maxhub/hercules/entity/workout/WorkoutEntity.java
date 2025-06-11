@@ -15,6 +15,7 @@ public class WorkoutEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String userId;
+    private String name;
     private LocalDateTime date;
     private String notes;
 }

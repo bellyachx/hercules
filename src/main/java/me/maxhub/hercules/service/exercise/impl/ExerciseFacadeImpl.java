@@ -1,8 +1,8 @@
 package me.maxhub.hercules.service.exercise.impl;
 
 import lombok.RequiredArgsConstructor;
-import me.maxhub.hercules.dto.ExerciseRequestDto;
-import me.maxhub.hercules.dto.ExerciseResponseDto;
+import me.maxhub.hercules.dto.exercise.ExerciseRequestDto;
+import me.maxhub.hercules.dto.exercise.ExerciseResponseDto;
 import me.maxhub.hercules.entity.exercise.*;
 import me.maxhub.hercules.exception.ExerciseNotFoundException;
 import me.maxhub.hercules.mapper.ExerciseMapper;

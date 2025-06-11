@@ -3,8 +3,9 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-    <include relativeToChangelogFile="true" file="changelog-1.0/changelog-1.0.xml"/>
-    <include relativeToChangelogFile="true" file="changelog-1.1/changelog-1.1.xml"/>
-    <include relativeToChangelogFile="true" file="changelog-1.2/changelog-1.2.xml"/>
-
+    <changeSet id="1749630715454-1" author="maxim">
+        <tagDatabase tag="1.2"/>
+    </changeSet>
+    <!-- include changelog files after this -->
+    <include relativeToChangelogFile="true" file="workout.xml"/>
 </databaseChangeLog>

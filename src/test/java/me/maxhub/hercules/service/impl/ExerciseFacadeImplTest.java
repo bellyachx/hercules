@@ -1,7 +1,7 @@
 package me.maxhub.hercules.service.impl;
 
-import me.maxhub.hercules.dto.ExerciseRequestDto;
-import me.maxhub.hercules.dto.ExerciseResponseDto;
+import me.maxhub.hercules.dto.exercise.ExerciseRequestDto;
+import me.maxhub.hercules.dto.exercise.ExerciseResponseDto;
 import me.maxhub.hercules.entity.exercise.DifficultyEntity;
 import me.maxhub.hercules.entity.exercise.ExerciseEntity;
 import me.maxhub.hercules.entity.exercise.ExerciseTypeEntity;

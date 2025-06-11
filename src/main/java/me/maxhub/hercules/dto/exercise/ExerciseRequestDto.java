@@ -1,4 +1,4 @@
-package me.maxhub.hercules.dto;
+package me.maxhub.hercules.dto.exercise;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

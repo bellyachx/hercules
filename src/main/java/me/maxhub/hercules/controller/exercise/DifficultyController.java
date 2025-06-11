@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/exercises/difficulties")
+@RequestMapping("api/v1/admin/exercises/difficulties")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 public class DifficultyController {
@@ -31,6 +31,7 @@ public class DifficultyController {
     }
 
     @GetMapping
+    @PreAuthorize("permitAll()")
     public List<String> getDifficulties() {
         return service.getDifficulties();
     }

@@ -1,8 +1,8 @@
 package me.maxhub.hercules.service.exercise;
 
 import jakarta.validation.constraints.NotNull;
-import me.maxhub.hercules.dto.ExerciseRequestDto;
-import me.maxhub.hercules.dto.ExerciseResponseDto;
+import me.maxhub.hercules.dto.exercise.ExerciseRequestDto;
+import me.maxhub.hercules.dto.exercise.ExerciseResponseDto;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.validation.annotation.Validated;
 

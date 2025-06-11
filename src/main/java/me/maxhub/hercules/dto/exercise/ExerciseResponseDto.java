@@ -1,4 +1,4 @@
-package me.maxhub.hercules.dto;
+package me.maxhub.hercules.dto.exercise;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

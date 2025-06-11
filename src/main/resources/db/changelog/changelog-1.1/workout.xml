@@ -6,7 +6,7 @@
 
     <changeSet id="1749630566592-1" author="maxim">
         <createTable tableName="exercise_logs">
-            <column name="id" type="VARCHAR(255)">
+            <column name="id" type="VARCHAR(255)" defaultValueComputed="gen_random_uuid()">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_exercise_logs"/>
             </column>
             <column name="user_id" type="VARCHAR(100)">
@@ -28,7 +28,7 @@
 
     <changeSet id="1749630563129-1" author="maxim">
         <createTable tableName="workout_logs">
-            <column name="id" type="VARCHAR(255)">
+            <column name="id" type="VARCHAR(255)" defaultValueComputed="gen_random_uuid()">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_workout_logs"/>
             </column>
             <column name="user_id" type="VARCHAR(100)">
@@ -43,7 +43,7 @@
 
     <changeSet id="1749630559837-1" author="maxim">
         <createTable tableName="workouts">
-            <column name="id" type="VARCHAR(255)">
+            <column name="id" type="VARCHAR(255)" defaultValueComputed="gen_random_uuid()">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_workouts"/>
             </column>
             <column name="user_id" type="VARCHAR(100)">
@@ -58,7 +58,7 @@
 
     <changeSet id="1749630556720-1" author="maxim">
         <createTable tableName="workout_exercises">
-            <column name="id" type="VARCHAR(255)">
+            <column name="id" type="VARCHAR(255)" defaultValueComputed="gen_random_uuid()">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_workout_exercises"/>
             </column>
             <column name="exercise_id" type="VARCHAR(255)">
@@ -74,7 +74,7 @@
 
     <changeSet id="1749630548167-1" author="maxim">
         <createTable tableName="exercise_workout_logs">
-            <column name="id" type="VARCHAR(255)">
+            <column name="id" type="VARCHAR(255)" defaultValueComputed="gen_random_uuid()">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_exercise_workout_logs"/>
             </column>
             <column name="workout_log_id" type="VARCHAR(255)">
