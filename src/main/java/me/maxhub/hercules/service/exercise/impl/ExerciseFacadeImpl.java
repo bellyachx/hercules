@@ -12,11 +12,14 @@ import me.maxhub.hercules.repo.exercise.ExerciseTypeRepository;
 import me.maxhub.hercules.repo.exercise.MuscleGroupRepository;
 import me.maxhub.hercules.service.exercise.ExerciseFacade;
 import me.maxhub.hercules.utils.Constants;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
@@ -37,20 +40,26 @@ public class ExerciseFacadeImpl implements ExerciseFacade {
 
     @Override
     @Transactional
-    public void updateExercise(String subject, String id, ExerciseRequestDto exerciseRequestDto) {
-        var exerciseEntity = exerciseRepository.findByIdAndUserIdIn(id, List.of(subject));
+    public void updateExercise(Jwt jwt, String id, ExerciseRequestDto exerciseRequestDto) {
+        var userIds = getUserIds(jwt);
+        var exerciseEntity = exerciseRepository.findByIdAndUserIdIn(id, userIds);
         if (exerciseEntity.isEmpty()) {
             throw new ExerciseNotFoundException(id);
         }
 
+        var subject = jwt.getSubject();
+        if (userIds.contains(Constants.SYSTEM_USER_ID)) {
+            subject = Constants.SYSTEM_USER_ID;
+        }
         var entityToSave = getExerciseEntity(subject, exerciseRequestDto);
         entityToSave.setId(id);
         exerciseRepository.save(entityToSave);
     }
 
     @Override
-    public void deleteExercise(String subject, String id) {
-        if (!exerciseRepository.existsByIdAndUserIdIn(id, List.of(subject))) {
+    public void deleteExercise(Jwt jwt, String id) {
+        var userIds = getUserIds(jwt);
+        if (!exerciseRepository.existsByIdAndUserIdIn(id, userIds)) {
             throw new ExerciseNotFoundException(id);
         }
         exerciseRepository.deleteById(id);
@@ -114,5 +123,21 @@ public class ExerciseFacadeImpl implements ExerciseFacade {
         return exerciseTypeRepository.findByExerciseTypeName(exerciseRequestDto.getExerciseType())
                 .orElseGet(() -> exerciseTypeRepository
                         .save(new ExerciseTypeEntity(exerciseRequestDto.getExerciseType())));
+    }
+
+    private List<String> getUserIds(Jwt jwt) {
+        boolean isAdmin = false;
+        Map<String, Object> realmAccess = jwt.getClaim("realm_access");
+        if (realmAccess.containsKey("roles")) {
+            List<String> roles = (List<String>) realmAccess.get("roles");
+            if (roles.contains("admin")) {
+                isAdmin = true;
+            }
+        }
+        var userIds = new ArrayList<>(List.of(jwt.getSubject()));
+        if (isAdmin) {
+            userIds.add(Constants.SYSTEM_USER_ID);
+        }
+        return userIds;
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/exercises/types")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('admin')")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class ExerciseTypeController {
 
     private final ExerciseTypeService service;

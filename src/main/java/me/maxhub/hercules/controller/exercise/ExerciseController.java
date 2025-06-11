@@ -46,9 +46,8 @@ public class ExerciseController {
     )
     public void updateExercise(@AuthenticationPrincipal Jwt jwt,
                                @PathVariable("id") @NotNull String id,
-                               @RequestBody @NotNull @Validated ExerciseRequestDto exerciseRequestDto) {
-        var subject = jwt.getSubject();
-        exerciseFacade.updateExercise(subject, id, exerciseRequestDto);
+                               @RequestBody @NotNull ExerciseRequestDto exerciseRequestDto) {
+        exerciseFacade.updateExercise(jwt, id, exerciseRequestDto);
     }
 
     @DeleteMapping("{id}")
@@ -61,8 +60,7 @@ public class ExerciseController {
     )
     public void deleteExercise(@AuthenticationPrincipal Jwt jwt,
                                @PathVariable("id") @NotNull String id) {
-        var subject = jwt.getSubject();
-        exerciseFacade.deleteExercise(subject, id);
+        exerciseFacade.deleteExercise(jwt, id);
     }
 
     @GetMapping(value = "{id}", produces = "application/json")
