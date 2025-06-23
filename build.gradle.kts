@@ -25,7 +25,7 @@ repositories {
 }
 
 // Spring
-val springBootVersion = "3.4.4"
+val springBootVersion = "3.5.3"
 val springDocVersion = "2.8.5"
 
 // Jackson Databind
