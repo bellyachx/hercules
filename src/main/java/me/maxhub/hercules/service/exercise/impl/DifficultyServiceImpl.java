@@ -1,6 +1,7 @@
 package me.maxhub.hercules.service.exercise.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.maxhub.hercules.entity.exercise.DifficultyEntity;
 import me.maxhub.hercules.repo.exercise.DifficultyRepository;
 import me.maxhub.hercules.service.exercise.DifficultyService;
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class DifficultyServiceImpl implements DifficultyService {
 
     private final DifficultyRepository difficultyRepository;
