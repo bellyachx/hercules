@@ -1,6 +1,6 @@
 plugins {
     `java-library`
-    id("org.springframework.boot") version "3.4.4"
+    id("org.springframework.boot") version "3.5.4"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.liquibase.gradle") version "2.2.0"
 }
@@ -25,7 +25,7 @@ repositories {
 }
 
 // Spring
-val springBootVersion = "3.4.4"
+val springBootVersion = "3.5.4"
 val springDocVersion = "2.8.9"
 
 // Jackson Databind
