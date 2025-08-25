@@ -35,7 +35,7 @@ val jacksonVersion = "2.18.3"
 val mapstructVersion = "1.6.3"
 
 // Database
-val postgresVersion = "42.7.5"
+val postgresVersion = "42.7.7"
 
 // Liquibase
 val liquibaseVersion = "4.31.1"
